@@ -1,4 +1,5 @@
 import pygame
+import func
 
 WINDOW_SIZE = (800, 600)
 
@@ -39,12 +40,6 @@ images = [
     ImageButton("back.png", 10, 10, 50, 50, "ROAD")
 ]
 
-def draw_title(title_text, x, y):
-    text = TITLE_FONT.render(title_text, True, "black")
-    # coordinates usually represent top-left of an object
-    coords = (x - text.get_width() / 2, y)
-    screen.blit(text, coords)
-
 def change_scene(new_scene):
     print("new scene = {}".format(new_scene))
     scene = new_scene
@@ -60,13 +55,13 @@ def change_scene(new_scene):
 
     # Veterans Health Administration
     if scene == "VHA":
-        draw_title("Veterans Health Administration (VHA)", WINDOW_SIZE[0] / 2, 50)
+        func.draw_text(screen, "Veterans Health Administration (VHA)", 30, WINDOW_SIZE[0] / 2, 50, True)
     # Veterans Benefits Administration
     elif scene == "VBA":
-        draw_title("Veterans Benefits Administration (VBA)", WINDOW_SIZE[0] / 2, 50)
+        func.draw_text(screen, "Veterans Benefits Administration (VBA)", 30, WINDOW_SIZE[0] / 2, 50, True)
     # National Cemetery Administration
     elif scene == "NCA":
-        draw_title("National Cemetery Administration (NCA)", WINDOW_SIZE[0] / 2, 50)
+        func.draw_text(screen, "National Cemetery Administration (NCA)", 30, WINDOW_SIZE[0] / 2, 50, True)
 
     # Draw all images
     for i in images: i.draw()
