@@ -33,7 +33,6 @@ class ImageButton:
             change_scene(self.scene)
 
 images = [
-    ImageButton("road.png", 0, 0, WINDOW_SIZE[0], WINDOW_SIZE[1], ""),
     ImageButton("pin.png", 200, 400, 86, 150, "VHA"),
     ImageButton("pin.png", 540, 190, 86, 150, "VBA"),
     ImageButton("pin.png", 180, 35, 86, 150, "NCA"),
@@ -48,13 +47,16 @@ def change_scene(new_scene):
     screen.fill("white")
 
     # Show road & pins if scene is road
-    for i in images[0:4]:
+    for i in images:
         i.visible = scene == "ROAD"
     # Show back button only if scene is not road
-    images[4].visible = scene != "ROAD"
+    images[3].visible = scene != "ROAD"
 
+    # Default screen
+    if scene == "ROAD":
+        func.draw_image(screen, "road.png", 0, 0, WINDOW_SIZE[0], WINDOW_SIZE[1])
     # Veterans Health Administration
-    if scene == "VHA":
+    elif scene == "VHA":
         func.draw_text(screen, "Veterans Health Administration (VHA)", 30, WINDOW_SIZE[0] / 2, 50, True)
     # Veterans Benefits Administration
     elif scene == "VBA":
@@ -83,7 +85,7 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
             print(mouse_pos)
             # [1:] starts at index one / road image is a background image and shouldnt be clicked
-            for i in images[1:]:
+            for i in images:
                 i.click(mouse_pos)
 
 

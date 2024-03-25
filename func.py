@@ -18,10 +18,11 @@ def draw_text(surface: pygame.Surface, text: str, size: int, x: int, y: int, cen
         # increase y by the text_height for the next line
         y += text_surface.get_height()
 
-
-# def draw_title(title_text, x, y):
-#     text = TITLE_FONT.render(title_text, True, "black")
-#     # coordinates usually represent top-left of an object
-#     # subtract by width/2 to move object to center of coords
-#     coords = (x - text.get_width() / 2, y)
-#     screen.blit(text, coords)
+def draw_image(surface: pygame.Surface, image: str, x: int, y: int, w: int, h: int):
+    # load image from file
+    # loading an image automatically creates a surface with the image on it
+    image_surface = pygame.image.load(image)
+    # rescale image to size
+    image_surface = pygame.transform.scale(image_surface, (w, h))
+    # blit() draws one surface onto another surface
+    surface.blit(image_surface, (x, y))
