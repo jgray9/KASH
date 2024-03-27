@@ -58,13 +58,39 @@ def change_scene(new_scene):
     # Veterans Health Administration
     elif scene == "VHA":
         func.draw_text(screen, "Veterans Health Administration (VHA)", 30, WINDOW_SIZE[0] / 2, 50, True)
+        func.draw_text(screen,
+"""The Veterans Health Administration (VHA) provides healthcare
+services to veterans, such as regular checkups with a primary care
+provider or appointments with specialists (cardiologists, gynecologists, etc.)
+Veterans are sorted into 8 priority groups, which determine the cost of
+copayments as well as access to additional benefits such as dental care.
+
+Website: https://www.va.gov/health/
+Phone Number: 1-877-222-VETS (8387)""", 18, 50, 100)
     # Veterans Benefits Administration
     elif scene == "VBA":
         func.draw_text(screen, "Veterans Benefits Administration (VBA)", 30, WINDOW_SIZE[0] / 2, 50, True)
+        func.draw_text(screen,
+"""The Veterans Benefits Administration (VBA) provides many different
+services to help veterans transition to civilian life. This includes
+assistance with home loans, college tuition, and carrer counseling.
+VBA is also responsible for pensions and monetary compensation for the
+elderly and disabled. 
+
+Website: https://benefits.va.gov/benefits/
+Phone Number: 1-800-827-1000""", 18, 50, 100)
     # National Cemetery Administration
     elif scene == "NCA":
         func.draw_text(screen, "National Cemetery Administration (NCA)", 30, WINDOW_SIZE[0] / 2, 50, True)
+        func.draw_text(screen,
+"""The National Cemetery Administration (NCA) provides burial spaces
+for veterans and maintains national cemetaries. NCA covers the cost
+of the gravesite, grave liner, opening/closing of the grave, and U.S.
+burial flag for free. Spouses, widows, and children of veterans are
+also covered by the NCA, even if they die before the veteran themself.
 
+Website: https://www.cem.va.gov/
+Phone Number: 1-800-698-2411""", 18, 50, 100)
     # Draw all images
     for i in images: i.draw()
     # Update screen
