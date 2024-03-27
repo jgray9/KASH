@@ -1,7 +1,8 @@
 import pygame
 
 # specifying variable types are only for readibility and dont really do anything code-wise
-# centered=False just specifies the default value, so draw_text can be called without including the centered argument
+# centered=False just specifies the default value for the centered argument, so draw_text
+# can be called without it
 def draw_text(surface: pygame.Surface, text: str, size: int, x: int, y: int, centered=False):
     # create new font with size size
     font = pygame.font.Font(pygame.font.get_default_font(), size)
