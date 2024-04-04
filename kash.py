@@ -1,10 +1,15 @@
 import pygame
 import elements
+import json
 
 WINDOW_SIZE = (800, 600)
 
 def create_scenes(screen: pygame.Surface):
+    text = {}
+    with open("text.json") as text_file:
+        text = json.load(text_file)
     scenes = {}
+
     # create road scene
     scenes['road'] = elements.Scene([
         elements.ImageElement(screen, 0, 0, 800, 600, "road.png"),
@@ -14,45 +19,27 @@ def create_scenes(screen: pygame.Surface):
     ])
     # create vha scene
     scenes['vha'] = elements.Scene([
-        elements.TitleElement(screen, 100, 50, 600, 30, "Veterans Health Administration (VHA)", 30),
+        elements.TitleElement(screen, 100, 50, 600, 30, text['vha']['title'], 30),
         elements.ImageElement(screen, 10, 10, 50, 50, "back.png", "road"),
-        elements.TextElement(screen, 50, 100, 700, 400,
-"""The Veterans Health Administration (VHA) provides healthcare
-services to veterans, such as regular checkups with a primary care
-provider or appointments with specialists (cardiologists, gynecologists, etc.)
-Veterans are sorted into 8 priority groups, which determine the cost of
-copayments as well as access to additional benefits such as dental care.
-
-Website: https://www.va.gov/health/
-Phone Number: 1-877-222-VETS (8387)""", 18)
+        elements.TextElement(screen, 50, 100, 700, 400, text['vha']['desc'], 18),
+        elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['vha']['phone'], 18),
+        elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['vha']['website'], 18)
     ])
     # create vba scene
     scenes['vba'] = elements.Scene([
-        elements.TitleElement(screen, 100, 50, 600, 30, "Veterans Benefits Administration (VBA)", 30),
+        elements.TitleElement(screen, 100, 50, 600, 30, text['vba']['title'], 30),
         elements.ImageElement(screen, 10, 10, 50, 50, "back.png", "road"),
-        elements.TextElement(screen, 50, 100, 700, 400,
-"""The Veterans Benefits Administration (VBA) provides many different
-services to help veterans transition to civilian life. This includes
-assistance with home loans, college tuition, and carrer counseling.
-VBA is also responsible for pensions and monetary compensation for the
-elderly and disabled. 
-
-Website: https://benefits.va.gov/benefits/
-Phone Number: 1-800-827-1000""", 18)
+        elements.TextElement(screen, 50, 100, 700, 400, text['vba']['desc'], 18),
+        elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['vba']['phone'], 18),
+        elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['vba']['website'], 18)
     ])
     # create nca scene
     scenes['nca'] = elements.Scene([
-        elements.TitleElement(screen, 100, 50, 600, 30, "National Cemetery Administration (NCA)", 30),
+        elements.TitleElement(screen, 100, 50, 600, 30, text['nca']['title'], 30),
         elements.ImageElement(screen, 10, 10, 50, 50, "back.png", "road"),
-        elements.TextElement(screen, 50, 100, 700, 400,
-"""The National Cemetery Administration (NCA) provides burial spaces
-for veterans and maintains national cemetaries. NCA covers the cost
-of the gravesite, grave liner, opening/closing of the grave, and U.S.
-burial flag for free. Spouses, widows, and children of veterans are
-also covered by the NCA, even if they die before the veteran themself.
-
-Website: https://www.cem.va.gov/
-Phone Number: 1-800-698-2411""", 18)
+        elements.TextElement(screen, 50, 100, 700, 400, text['nca']['desc'], 18),
+        elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['nca']['phone'], 18),
+        elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['nca']['website'], 18)
     ])
 
     return scenes
