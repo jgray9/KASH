@@ -12,15 +12,15 @@ def create_scenes(screen: pygame.Surface):
 
     # create road scene
     scenes['road'] = elements.Scene([
-        elements.ImageElement(screen, 0, 0, 800, 600, "road.png"),
-        elements.ImageElement(screen, 200, 400, 86, 150, 'pin.png', 'vha'),
-        elements.ImageElement(screen, 540, 190, 86, 150, 'pin.png', 'vba'),
-        elements.ImageElement(screen, 180, 35, 86, 150, 'pin.png', 'nca')
+        elements.ImageElement(screen, 0, 0, 800, 600, "images/road.png"),
+        elements.ImageElement(screen, 200, 400, 86, 150, 'images/pin.png', 'vha'),
+        elements.ImageElement(screen, 540, 190, 86, 150, 'images/pin.png', 'vba'),
+        elements.ImageElement(screen, 180, 35, 86, 150, 'images/pin.png', 'nca')
     ])
     # create vha scene
     scenes['vha'] = elements.Scene([
         elements.TitleElement(screen, 100, 50, 600, 30, text['vha']['title'], 30),
-        elements.ImageElement(screen, 10, 10, 50, 50, "back.png", "road"),
+        elements.ImageElement(screen, 10, 10, 50, 50, "images/back.png", "road"),
         elements.TextElement(screen, 50, 100, 700, 400, text['vha']['desc'], 18),
         elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['vha']['phone'], 18),
         elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['vha']['website'], 18)
@@ -28,7 +28,7 @@ def create_scenes(screen: pygame.Surface):
     # create vba scene
     scenes['vba'] = elements.Scene([
         elements.TitleElement(screen, 100, 50, 600, 30, text['vba']['title'], 30),
-        elements.ImageElement(screen, 10, 10, 50, 50, "back.png", "road"),
+        elements.ImageElement(screen, 10, 10, 50, 50, "images/back.png", "road"),
         elements.TextElement(screen, 50, 100, 700, 400, text['vba']['desc'], 18),
         elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['vba']['phone'], 18),
         elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['vba']['website'], 18)
@@ -36,7 +36,7 @@ def create_scenes(screen: pygame.Surface):
     # create nca scene
     scenes['nca'] = elements.Scene([
         elements.TitleElement(screen, 100, 50, 600, 30, text['nca']['title'], 30),
-        elements.ImageElement(screen, 10, 10, 50, 50, "back.png", "road"),
+        elements.ImageElement(screen, 10, 10, 50, 50, "images/back.png", "road"),
         elements.TextElement(screen, 50, 100, 700, 400, text['nca']['desc'], 18),
         elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['nca']['phone'], 18),
         elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['nca']['website'], 18)
