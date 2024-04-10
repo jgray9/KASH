@@ -71,7 +71,7 @@ def program_loop(screen, scenes):
         # Clear screen
         screen.fill("white")
         # Draw new elements
-        current_scene.draw()
+        current_scene.draw_all()
         # Update display
         pygame.display.flip()
 

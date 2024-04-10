@@ -13,7 +13,7 @@ class Scene:
             if e.contains_point(mouse_x, mouse_y):
                 return e.next_scene
     
-    def draw(self):
+    def draw_all(self):
         for e in self.elements:
             e.draw()
 

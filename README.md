@@ -27,7 +27,7 @@ click(int mouse_x, int mouse_y) -> string
 ```
 Iterates through every element in the list, and checks if the coordinates `(mouse_x, mouse_y)` are inside the elements hitbox using the `SceneElement.click()` function. If the function returns true and the element is clickable, the name of the next scene to be displayed is returned. This name is stored as a variable in the `SceneElement` class. If the element is not clickable, `next_scene` will be `None` and the function will ignore that element during while iterating.
 ```
-draw() -> None
+draw_all() -> None
 ```
 Iterates through every element and calls their `draw()` function
 
