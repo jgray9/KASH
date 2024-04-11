@@ -1,24 +1,22 @@
 import pygame
 
+# ID for a custom pygame event for changing scenes
+CHANGESCENEEVENT = pygame.USEREVENT + 1
+
 class Scene:
     def __init__(self, elements: list) -> None:
         self.elements = elements
     
-    def click(self, mouse_x, mouse_y):
+    def click(self, x, y):
         for e in self.elements:
-            # if next_scene is None element is not clickable
-            if e.next_scene == None:
-                continue
-            # collidepoint checks if a position is inside a rect
-            if e.contains_point(mouse_x, mouse_y):
-                return e.next_scene
+            e.click(x, y)
     
     def draw_all(self):
         for e in self.elements:
             e.draw()
 
 class SceneElement:
-    def __init__(self, screen, x, y, w, h, next_scene) -> None:
+    def __init__(self, screen, x, y, w, h, next_scene=None) -> None:
         self.screen = screen
         # position of element
         self.x = x
@@ -30,16 +28,21 @@ class SceneElement:
         # (none by default since most elements wont be clickable)
         self.next_scene = next_scene
     
-    def contains_point(self, x, y) -> bool:
+    def click(self, x, y):
+        # element not clickable
+        if self.next_scene == None: return
         # too far left
-        if x < self.x: return False
+        if x < self.x: return
         # too far right
-        if x > self.x + self.w: return False
+        if x > self.x + self.w: return
         # too far up
-        if y < self.y: return False
+        if y < self.y: return
         # too far down
-        if y > self.y + self.h: return False
-        return True
+        if y > self.y + self.h: return
+        # create a new change scene event
+        event = pygame.event.Event(CHANGESCENEEVENT, {'scene': self.next_scene})
+        # trigger the event
+        pygame.event.post(event)
     
     def draw(self):
         pass
@@ -83,7 +86,7 @@ class TextElement(SceneElement):
             curr_y += text_surface.get_height()
 
 class TitleElement(SceneElement):
-    def __init__(self, screen, x, y, w, h, text, text_size, next_scene='road') -> None:
+    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None) -> None:
         # call super constructor
         super().__init__(screen, x, y, w, h, next_scene)
         # create new font with size size

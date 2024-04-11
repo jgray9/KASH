@@ -59,12 +59,10 @@ def program_loop(screen, scenes):
                 return
             # user clicks the mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # coordinates of mouse
-                mouse_position = pygame.mouse.get_pos()
-                # Scene.click() returns name of scene to transition to if a clickable element is clicked
-                # click() returns None of no clickable element is clicked
-                next_scene_name = current_scene.click(mouse_position[0], mouse_position[1])
-                current_scene = scenes[next_scene_name] if next_scene_name != None else current_scene
+                current_scene.click(event.pos[0], event.pos[1])
+            # scene changes
+            if event.type == elements.CHANGESCENEEVENT:
+                current_scene = scenes[event.scene]
         
         # HANDLE OUTPUT
 
