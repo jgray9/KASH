@@ -92,5 +92,5 @@ def parse_all():
     return data
 
 # create json file
-with open('test.json', '+w') as file:
+with open('departments.json', '+w') as file:
     json.dump( parse_all(), file )
