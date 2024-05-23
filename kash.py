@@ -1,26 +1,40 @@
 import pygame
 import elements
 import json
+import os, sys
 
 WINDOW_SIZE = (800, 600)
 
+# filepath is different when program is in .exe form
+def get_file_path(filename):
+    # true if file is in .exe form
+    if hasattr(sys, "_MEIPASS"):
+        # in .exe form, all files are in a temp directory
+        # only include parts of filename that come after the last /
+        # ex. images/road.png becomes road.png
+        filename = filename[ filename.rfind('/') + 1 : ]
+        # and then add the path to the temp directory before the filename
+        # ex. road.png becomes .../AppData/Local/Temp/.../road.png
+        filename = os.path.join(sys._MEIPASS, filename)
+    return filename
+
 def create_scenes(screen: pygame.Surface):
     text = {}
-    with open("text.json") as text_file:
+    with open(get_file_path("text.json")) as text_file:
         text = json.load(text_file)
     scenes = {}
 
     # create road scene
     scenes['road'] = elements.Scene([
-        elements.ImageElement(screen, 0, 0, 800, 600, "images/road.png"),
-        elements.ImageElement(screen, 200, 400, 86, 150, 'images/pin.png', 'vha'),
-        elements.ImageElement(screen, 540, 190, 86, 150, 'images/pin.png', 'vba'),
-        elements.ImageElement(screen, 180, 35, 86, 150, 'images/pin.png', 'nca')
+        elements.ImageElement(screen, 0, 0, 800, 600, get_file_path('images/road.png')),
+        elements.ImageElement(screen, 200, 400, 86, 150, get_file_path('images/pin.png'), 'vha'),
+        elements.ImageElement(screen, 540, 190, 86, 150, get_file_path('images/pin.png'), 'vba'),
+        elements.ImageElement(screen, 180, 35, 86, 150, get_file_path('images/pin.png'), 'nca')
     ])
     # create vha scene
     scenes['vha'] = elements.Scene([
         elements.TitleElement(screen, 100, 50, 600, 30, text['vha']['title'], 30),
-        elements.ImageElement(screen, 10, 10, 50, 50, "images/back.png", "road"),
+        elements.ImageElement(screen, 10, 10, 50, 50, get_file_path('images/back.png'), 'road'),
         elements.TextElement(screen, 50, 100, 700, 400, text['vha']['desc'], 18),
         elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['vha']['phone'], 18),
         elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['vha']['website'], 18)
@@ -28,7 +42,7 @@ def create_scenes(screen: pygame.Surface):
     # create vba scene
     scenes['vba'] = elements.Scene([
         elements.TitleElement(screen, 100, 50, 600, 30, text['vba']['title'], 30),
-        elements.ImageElement(screen, 10, 10, 50, 50, "images/back.png", "road"),
+        elements.ImageElement(screen, 10, 10, 50, 50, get_file_path('images/back.png'), 'road'),
         elements.TextElement(screen, 50, 100, 700, 400, text['vba']['desc'], 18),
         elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['vba']['phone'], 18),
         elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['vba']['website'], 18)
@@ -36,7 +50,7 @@ def create_scenes(screen: pygame.Surface):
     # create nca scene
     scenes['nca'] = elements.Scene([
         elements.TitleElement(screen, 100, 50, 600, 30, text['nca']['title'], 30),
-        elements.ImageElement(screen, 10, 10, 50, 50, "images/back.png", "road"),
+        elements.ImageElement(screen, 10, 10, 50, 50, get_file_path('images/back.png'), 'road'),
         elements.TextElement(screen, 50, 100, 700, 400, text['nca']['desc'], 18),
         elements.TextElement(screen, 50, 230, 700, 100, 'Phone Number: ' + text['nca']['phone'], 18),
         elements.TextElement(screen, 50, 248, 700, 100, 'Website: ' + text['nca']['website'], 18)
