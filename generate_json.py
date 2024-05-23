@@ -2,95 +2,140 @@ import requests, json
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from urllib.parse import  urljoin
+import re
 
-# iterate through every link on https://www.va.gov/directory/guide/allstate.asp
-# return list of tuples (state name, state link)
-def get_states():
-    url = 'https://www.va.gov/directory/guide/allstate.asp'
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, "html.parser")
+HTML = """
+<ul>
+    <li class="org-list">
+        <a href=https://vaww.va.gov/health/>Veterans Health Administration</a>
+        <br>
+        With 152 VA medical centers (VAMCs) nationwide, VHA manages
+        one of the largest health care systems in the United States. VAMCs within
+        a Veterans Integrated Service Network (VISN) work together to provide efficient,
+        accessible health care to veterans in their areas. The VHA also conducts research
+        and education, and provides emergency medical preparedness.
+    </li>
+    <li class="org-list">
+        <a href=https://vbaw.vba.va.gov/>Veterans Benefits Administration</a>
+        <br>
+        VBA provides benefits and services to the veteran population
+        through 56 VA regional offices. Some of the benefits and services provided
+        by VBA to veterans and their dependents include compensation and pension,
+        education, loan guaranty, and insurance.
+    </li>
+    <li class="org-list">
+        <a href=https://vaww.nca.va.gov/>National Cemetery Administration</a>
+        <br>
+        NCA is responsible for providing burial benefits to veterans
+        and eligible dependents. The delivery of these benefits involves managing
+        141 National Cemeteries nationwide, providing grave markers worldwide, administering
+        the State Cemetery Grants Program that complements the National Cemeteries
+        network, and providing Presidential Memorial Certificates to next of kin of
+        deceased veterans.
+    </li>
+    <li class="org-list">
+        <a href=https://vaww.va.gov/employee/>VA Office of Human Resources and Administration/Operations, Security, and Preparedness (HRA/OSP)</a>
+        <br>
+        HRA/OSP's functional areas include human resources management, administrative policies and functions, equal opportunity policies and functions, and security and law enforcement.
+    </li>
+    <li class="org-list">
+        <a href=https://vaww.oit.va.gov/>Office of Information and Technology</a>
+        <br>
+        Information technology is at the core of everything we do at VA and the Office of Information and Technology is tasked with ensuring that VA has the IT tools and services needed to support our Nation's Veterans.
+    </li>
+    <li class="org-list">
+        <a href="/bca/">Board of Contract Appeals</a>
+        <br>
+        The Department of Veterans Affairs Board of Contract Appeals
+        considers and determines appeals from decisions of contracting officers pursuant
+        to the Contract Disputes Act of 1978.
+    </li>
+    <li class="org-list">
+        <a href=https://www.bva.va.gov/>Board of Veterans' Appeals</a>
+        <br>
+        The Board reviews benefit claims determinations made by local
+        VA offices and issues decision on appeals. The Board members, attorneys experienced
+        in veterans law and in reviewing benefit claims, are the only ones who can
+        issue Board decisions.
+    </li>
+    <li class="org-list">
+        <a href="/centerforminorityveterans/">Center for Minority Veterans</a>
+        <br>
+        As a Center for Excellence, the Center for Minority Veterans
+        will ensure that the VA addresses the unique circumstances and special needs
+        of minority veterans.
+    </li>
+    <li class="org-list">
+        <a href="/womenvet/">Center for Women Veterans</a>
+        <br>
+        The mission of the Center for Women Veterans is to ensure
+        women veterans have access to VA benefits and services, to ensure that VA
+        health care and benefits programs are responsive to the gender-specific needs
+        of women veterans, to perform outreach to improve women veterans awareness
+        of VA services, benefits and eligibility, and to act as the primary advisor
+        to the Secretary for Veterans Affairs on all matters related to programs,
+        issues, and initiatives for and affecting women veterans.
+    </li>
+    <li class="org-list">
+        <a href=https://vaww.oalc.va.gov/ >Office of Acquisition, Logistics, and Construction (OALC)</a>
+        <br>
+        OALC supports the VA administrations and staff offices by providing innovative
+        business solutions in the area of acquisition, distribution of supplies, and
+        cost effective strategies in asset management and major construction. OALC has
+        three major offices, the <a href=https://vaww.va.gov/oal/index.asp title="Office of Acquisition and Logistics">Office of Acquisition and Logistics</a>, the <a href=https://vaww.va.gov/opal/index.asp title="Office of Procurement, Acquisition and Logistics">Office of Procurement, Acquisition and Logistics</a>, and the <a href=http://vaww.cfm.va.gov title="Office of Construction and Facilities Management">Office of Construction and Facilities Management</a>.
+    </li>
+    <li class="org-list">
+        <a href="/adr/">Office of Alternate Dispute Resolution (ADR) and&nbsp; Mediation</a>
+        <br>
+        This office provides effective training and consulting in
+        conflict resolution and ADR (emphasizing mediation) to VA organizations and
+        employees.
+    </li>
+    <li class="org-list">
+        <a href=https://www.va.gov/om/index.asp>Office of Management (OM)</a>
+        <br>
+        OM enables VA to provide a full range of benefits and services to our Nation's Veterans by providing strategic and operational leadership in <a href=https://vaww.va.gov/budget/index.asp>budget</a>, <a href=https://vaww.va.gov/oaem/index.asp>asset enterprise management</a>, <a href=https://vaww.va.gov/finance/index.asp>financial management</a>, <a href=https://vaww.va.gov/fmbts/index.asp>financial management business transformation service</a>, actuarial services, and business oversight. It also promotes public confidence in the Department through stewardship and oversight of business activities that are consistent with national policy, law, and regulation.
+    </li>
+    <li class="org-list">
+        <a href="/oca/">Office of Congressional and Legislative Affairs</a>
+        <br>
+        The Office of Congressional and Legislative Affairs is the principal point of contact between the Department and Congress and is the oversight and coordinating body for the Department's Congressional relations. The office serves in an advisory capacity to the Secretary and Deputy Secretary as well as other VA managers concerning policies, programs, and legislative matters in which Congressional committees or individual members of Congress have expressed an interest.
+    </li>
+    <li class="org-list">
+        <a href=https://www.oedca.va.gov/>Office of Employment Discrimination Complaint Adjudication</a>
+        <br>
+        OEDCA maintains a high quality and high performing workforce
+        and ensures fairness, integrity, and trust throughout the complaint adjudication
+        phase of the Equal Employment Opportunity complaint resolution process.
+    </li>
+    <li class="org-list">
+        <a href=https://vaww.execsec.va.gov/>Office of the Executive Secretary</a>
+        <br>
+        The Office of the Executive Secretary, a component of the Office of the Secretary,
+        serves as the Department's central coordinating point for all documents flowing in and out of the Office of the Secretary.
+    </li>
+    <li class="org-list">
+        <a href=https://dvagov.sharepoint.com/sites/OGC-Client>Office of General Counsel</a>
+        <br>
+        The General Counsel provides legal advice and services to the Secretary (SECVA) and all organizational components of the Department. The General Counsel is, by statute, the Department's Chief Legal Officer.
+    </li>
+</ul>
+"""
 
-    states = []
-    for a in soup.findAll('a', class_='reglink'):
-        state_name = a.text
-        state_url = urljoin(url, a['href'])
-        states.append((state_name, state_url))
-    return states
+soup = BeautifulSoup(HTML, "html.parser")
+data = {}
 
-# scrapes the page of a state and returns dictionary organized as:
-# "department": {
-#     "subdepartment": [
-#         {
-#             "name": facility name,
-#             "url": facility link
-#         }
-#     ]
-# }
-# departments are: VHA, VBA, and NCA
-# subdepartments vary depending on page
-def parse_state_page(state_url):
-    state_data = defaultdict(dict)
-    page = requests.get(state_url)
-    soup = BeautifulSoup(page.content, "html.parser")
+for item in soup.find_all('li'):
+    # name is inside the link
+    name = item.find('a').text
+    # remove other elements before parsing text
+    item.find('a').decompose()
+    item.find('br').decompose()
+    # process text
+    desc = item.text
+    desc = desc.replace('\n', '') 
+    desc = re.sub(' +', ' ', desc)
+    data[name] = desc
 
-    department = ''
-    subdepartment = ''
-    # all data is organized in a table element
-    # first two rows of table don't contain useful info
-    for td in soup.findAll('td')[2:]:
-        # usually the first <td> of each row has a class, but sometimes the class is in a <span> inside of the <td>
-        cl = td['class'][0] if td.has_attr('class') else td.find('span')['class'][0] if td.find('span') != None else None
-
-        # <td> contains the title of a department (VHA, VBA or NCA)
-        # following rows will contain info pertaining to that department until next 'stitle'
-        if cl == 'stitle':
-            department = td.text
-            state_data[department] = {}
-        # <td> contains title of a subdepartment (text has an indent that must be removed)
-        # following rows will contain facilities in that subdepartment until next 'sreptitle'
-        elif cl == 'sreptitle':
-            subdepartment = td.text.replace('\xa0','')
-            state_data[department][subdepartment] = []
-        # <td> contains title of a facility
-        # the title of the <a> element is more descriptive so that is used instead
-        elif cl == 'reglink':
-            a = td.parent.find('a') # link always in same row as <td class='reglink'>
-            state_data[department][subdepartment].append({
-                'name': a.text,
-                'url': urljoin(state_url, a['href'])
-            })
-    return state_data
-
-# generate dictionary object organized as:
-# "department": {
-#     "state name": {
-#         "subdepartment": [
-#             {
-#                 "name": facility name,
-#                 "url": facility link
-#             }
-#         ]
-#     }
-# }
-def parse_all():
-    data = {
-        'VHA': {},
-        'VBA': {},
-        'NCA': {}
-    }
-    for state_name, state_url in get_states():
-        print(f'Loading {state_name}...')
-        state_data = parse_state_page(state_url)
-        # get data for each department
-        vha_data = state_data['Veterans Health Administration']
-        vba_data = state_data['Veterans Benefits Administration']
-        nca_data = state_data['National Cemetery Administration']
-        # put data for each department in proper state
-        data['VHA'][state_name] = vha_data
-        data['VBA'][state_name] = vba_data
-        data['NCA'][state_name] = nca_data
-    return data
-
-# create json file
-with open('departments.json', '+w') as file:
-    json.dump( parse_all(), file )
+with open('departments.json', 'w+') as file:
+    json.dump( data, file )
