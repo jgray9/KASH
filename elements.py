@@ -16,7 +16,7 @@ class Scene:
             e.draw()
 
 class SceneElement:
-    def __init__(self, screen, x, y, w, h, next_scene=None) -> None:
+    def __init__(self, screen, x, y, w, h, next_scene=None, a=256) -> None:
         self.screen = screen
         # position of element
         self.x = x
@@ -27,6 +27,8 @@ class SceneElement:
         # scene to transition to when element is clicked
         # (none by default since most elements wont be clickable)
         self.next_scene = next_scene
+        # alpha of element
+        self.a = a
     
     def click(self, x, y):
         # element not clickable
@@ -56,6 +58,8 @@ class ImageElement(SceneElement):
         self.image_surface = pygame.image.load(filename)
         # rescale image to size
         self.image_surface = pygame.transform.scale(self.image_surface, (w, h))
+        # set transparency
+        self.image_surface.set_alpha(self.a)
     
     def draw(self):
         # blit() draws one surface onto another surface
