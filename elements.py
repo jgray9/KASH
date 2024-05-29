@@ -16,7 +16,7 @@ class Scene:
             e.draw()
 
 class SceneElement:
-    def __init__(self, screen, x, y, w, h, next_scene=None, a=256) -> None:
+    def __init__(self, screen, x, y, w, h, next_scene=None, a=256, bg_color=(0, 0, 0, 0)) -> None:
         self.screen = screen
         # position of element
         self.x = x
@@ -29,6 +29,10 @@ class SceneElement:
         self.next_scene = next_scene
         # alpha of element
         self.a = a
+        # set background color
+        self.bg_surface = pygame.Surface((w, h))
+        self.bg_surface.fill(bg_color)
+        self.bg_surface.set_alpha(bg_color[3])
     
     def click(self, x, y):
         # element not clickable
@@ -66,33 +70,43 @@ class ImageElement(SceneElement):
         self.screen.blit(self.image_surface, (self.x, self.y))
 
 class TextElement(SceneElement):
-    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None) -> None:
+    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None, bg_color=(0,0,0,0), a=256) -> None:
         # call super constructor
-        super().__init__(screen, x, y, w, h, next_scene)
+        super().__init__(screen, x, y, w, h, next_scene, a, bg_color)
+        self.padding = 5
         # create new font with size size
         # no need for 'self.' since this wont be used outside of __init__
         font = pygame.font.Font(pygame.font.get_default_font(), text_size)
         # pygame can only render one line at a time
         # text must be split into multiple surfaces
         self.text_surfaces = []
-        # iterate through each line in the text
+        curr_x = x + self.padding
+        curr_y = y + self.padding
+        # iterate through each word
         for line in text.split('\n'):
-            # create a new surface object with text on it
-            text_surface = font.render(line, True, "black")
-            self.text_surfaces.append(text_surface)
+            for word in line.split(' '):
+                # surface for current word
+                curr_surface = font.render(word + ' ', True, "black")
+                # if new x is out of bounds, increase y for a new line of text, and reset x
+                if curr_x + curr_surface.get_width() >= x + w - self.padding:
+                    curr_x = x + self.padding
+                    curr_y += curr_surface.get_height()
+                # add to list
+                self.text_surfaces.append((curr_x, curr_y, curr_surface))
+                curr_x += curr_surface.get_width()
+            # reset x and increase y for new line
+            curr_x = x + self.padding
+            curr_y += curr_surface.get_height()
     
     def draw(self):
-        curr_y = self.y
-        for text_surface in self.text_surfaces:
-            # blit() draws one surface onto another surface
-            self.screen.blit(text_surface, (self.x, curr_y))
-            # increase y by the text_height for the next line
-            curr_y += text_surface.get_height()
+        self.screen.blit(self.bg_surface, (self.x, self.y))
+        for x, y, text_surface in self.text_surfaces:
+            self.screen.blit(text_surface, (x, y))
 
 class TitleElement(SceneElement):
-    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None) -> None:
+    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None, a=256, bg_color=(0, 0, 0, 0)) -> None:
         # call super constructor
-        super().__init__(screen, x, y, w, h, next_scene)
+        super().__init__(screen, x, y, w, h, next_scene, a, bg_color)
         # create new font with size size
         # no need for 'self.' since this wont be used outside of __init__
         font = pygame.font.Font(pygame.font.get_default_font(), text_size)

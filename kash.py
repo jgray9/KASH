@@ -33,27 +33,30 @@ def create_scenes(screen: pygame.Surface):
     ])
     # create vha scene
     scenes['vha'] = elements.Scene([
-        elements.TitleElement(screen, 250,  50, 600,  30, text['vha']['title'], 30),
+        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background_2.png')),
+        elements.TitleElement(screen, 250,  50, 600,  30, text['vha']['title'], 30, bg_color=(0,255,0,50)),
         elements.ImageElement(screen,  10,  10, 200, 100, get_file_path('images/back.png'), 'road'),
-        elements.TextElement(screen,   50, 120, 700, 400, text['vha']['desc'], 18),
-        elements.TextElement(screen,   50, 230, 700, 100, 'Phone Number: ' + text['vha']['phone'], 18),
-        elements.TextElement(screen,   50, 248, 700, 100, 'Website: ' + text['vha']['website'], 18)
+        elements.TextElement(screen,  115, 140, 500, 400, text['vha']['desc'], 18, bg_color=(0,255,0,50)),
+        elements.TextElement(screen,  645, 140, 300, 50, 'Phone Number:\n' + text['vha']['phone'], 18, bg_color=(0,255,0,50)),
+        elements.TextElement(screen,  645, 200, 300, 50, 'Website:\n' + text['vha']['website'], 18, bg_color=(0,255,0,50)),
     ])
     # create vba scene
     scenes['vba'] = elements.Scene([
+        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background_2.png')),
         elements.TitleElement(screen, 250,  50, 600,  30, text['vba']['title'], 30),
         elements.ImageElement(screen,  10,  10, 200, 100, get_file_path('images/back.png'), 'road'),
-        elements.TextElement(screen,   50, 120, 700, 400, text['vba']['desc'], 18),
-        elements.TextElement(screen,   50, 230, 700, 100, 'Phone Number: ' + text['vba']['phone'], 18),
-        elements.TextElement(screen,   50, 248, 700, 100, 'Website: ' + text['vba']['website'], 18)
+        elements.TextElement(screen,  115, 140, 500, 400, text['vba']['desc'], 18),
+        elements.TextElement(screen,  645, 140, 300, 50, 'Phone Number:\n' + text['vba']['phone'], 18),
+        elements.TextElement(screen,  645, 200, 300, 50, 'Website:\n' + text['vba']['website'], 18),
     ])
     # create nca scene
     scenes['nca'] = elements.Scene([
+        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background_2.png')),
         elements.TitleElement(screen, 250,  50, 600,  30, text['nca']['title'], 30),
         elements.ImageElement(screen,  10,  10, 200, 100, get_file_path('images/back.png'), 'road'),
-        elements.TextElement(screen,   50, 120, 700, 400, text['nca']['desc'], 18),
-        elements.TextElement(screen,   50, 230, 700, 100, 'Phone Number: ' + text['nca']['phone'], 18),
-        elements.TextElement(screen,   50, 248, 700, 100, 'Website: ' + text['nca']['website'], 18)
+        elements.TextElement(screen,  115, 140, 500, 400, text['nca']['desc'], 18),
+        elements.TextElement(screen,  645, 140, 300, 50, 'Phone Number:\n' + text['nca']['phone'], 18),
+        elements.TextElement(screen,  645, 200, 300, 50, 'Website:\n' + text['nca']['website'], 18),
     ])
 
     return scenes
