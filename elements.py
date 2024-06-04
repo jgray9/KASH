@@ -5,15 +5,16 @@ CHANGESCENEEVENT = pygame.USEREVENT + 1
 
 class Scene:
     def __init__(self, elements: list) -> None:
-        self.elements = elements
+        self.elements: list[SceneElement] = elements
     
-    def click(self, x, y):
+    def click(self, x: int | float, y: int | float):
         for e in self.elements:
             e.click(x, y)
     
     def draw_all(self):
         for e in self.elements:
-            e.draw()
+            if not e.hidden:
+                e.draw()
 
 class SceneElement:
     def __init__(self, screen: pygame.Surface,
@@ -33,10 +34,14 @@ class SceneElement:
         self.next_scene = next_scene
         # transparency of element
         self.opacity = opacity
+        # when true, element is not drawn even when its current scene is active
+        self.hidden = False
     
-    def click(self, x, y):
+    def click(self, x: int | float, y: int | float):
         # element not clickable
         if self.next_scene == None: return
+        # element hidden
+        if self.hidden: return
         # too far left
         if x < self.x: return
         # too far right
