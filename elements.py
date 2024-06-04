@@ -16,7 +16,11 @@ class Scene:
             e.draw()
 
 class SceneElement:
-    def __init__(self, screen, x, y, w, h, next_scene=None, a=256, bg_color=(0, 0, 0, 0)) -> None:
+    def __init__(self, screen: pygame.Surface,
+                 x: int | float, y: int | float,
+                 w: int | float, h: int | float,
+                 opacity: int = 256,
+                 next_scene: str = None) -> None:
         self.screen = screen
         # position of element
         self.x = x
@@ -27,12 +31,8 @@ class SceneElement:
         # scene to transition to when element is clicked
         # (none by default since most elements wont be clickable)
         self.next_scene = next_scene
-        # alpha of element
-        self.a = a
-        # set background color
-        self.bg_surface = pygame.Surface((w, h))
-        self.bg_surface.fill(bg_color)
-        self.bg_surface.set_alpha(bg_color[3])
+        # transparency of element
+        self.opacity = opacity
     
     def click(self, x, y):
         # element not clickable
@@ -54,25 +54,34 @@ class SceneElement:
         pass
 
 class ImageElement(SceneElement):
-    def __init__(self, screen, x, y, w, h, filename, next_scene=None) -> None:
-        # call super constructor
-        super().__init__(screen, x, y, w, h, next_scene)
+    def __init__(self, screen: pygame.Surface,
+                 filename: str,
+                 x: int | float, y: int | float,
+                 opacity: int = 256,
+                 next_scene: str = None) -> None:
         # load image from file
         # loading an image automatically creates a surface with the image on it
         self.image_surface = pygame.image.load(filename)
-        # rescale image to size
-        self.image_surface = pygame.transform.scale(self.image_surface, (w, h))
+        # call super constructor
+        super().__init__(screen, x, y, self.image_surface.get_width(), self.image_surface.get_height(), opacity, next_scene)
         # set transparency
-        self.image_surface.set_alpha(self.a)
+        self.image_surface.set_alpha(self.opacity)
     
     def draw(self):
         # blit() draws one surface onto another surface
         self.screen.blit(self.image_surface, (self.x, self.y))
 
 class TextElement(SceneElement):
-    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None, bg_color=(0,0,0,0), a=256) -> None:
+    def __init__(self, screen: pygame.Surface,
+                 text: str, text_size: int, text_color: str,
+                 x: int | float, y: int | float,
+                 w: int | float,
+                 opacity: int = 256) -> None:
         # call super constructor
-        super().__init__(screen, x, y, w, h, next_scene, a, bg_color)
+        # width and height are used for click detection, not actual size of display
+        # since text elements are never clickable, height does not matter
+        # width matters since it is used to determine line breaks
+        super().__init__(screen, x, y, w, 0, opacity=opacity)
         self.padding = 5
         # create new font with size size
         # no need for 'self.' since this wont be used outside of __init__
@@ -86,12 +95,13 @@ class TextElement(SceneElement):
         for line in text.split('\n'):
             for word in line.split(' '):
                 # surface for current word
-                curr_surface = font.render(word + ' ', True, "black")
+                curr_surface = font.render(word + ' ', True, text_color)
                 # if new x is out of bounds, increase y for a new line of text, and reset x
                 if curr_x + curr_surface.get_width() >= x + w - self.padding:
                     curr_x = x + self.padding
                     curr_y += curr_surface.get_height()
                 # add to list
+                curr_surface.set_alpha(self.opacity)
                 self.text_surfaces.append((curr_x, curr_y, curr_surface))
                 curr_x += curr_surface.get_width()
             # reset x and increase y for new line
@@ -99,25 +109,32 @@ class TextElement(SceneElement):
             curr_y += curr_surface.get_height()
     
     def draw(self):
-        self.screen.blit(self.bg_surface, (self.x, self.y))
         for x, y, text_surface in self.text_surfaces:
             self.screen.blit(text_surface, (x, y))
 
 class TitleElement(SceneElement):
-    def __init__(self, screen, x, y, w, h, text, text_size, next_scene=None, a=256, bg_color=(0, 0, 0, 0)) -> None:
+    def __init__(self, screen: pygame.Surface,
+                 text: str, text_size: int, text_color: str,
+                 x: int | float, y: int | float,
+                 w: int | float,
+                 opacity: int = 256) -> None:
         # call super constructor
-        super().__init__(screen, x, y, w, h, next_scene, a, bg_color)
+        # width and height are used for click detection, not actual size of display
+        # since title elements are never clickable, height does not matter
+        # width matters since it is used to center text
+        super().__init__(screen, x, y, w, 0, opacity=opacity)
         # create new font with size size
         # no need for 'self.' since this wont be used outside of __init__
         font = pygame.font.Font(pygame.font.get_default_font(), text_size)
         # titles are only one line so one surface should suffice
-        self.text_surface = font.render(text, True, "black")
+        self.text_surface = font.render(text, True, text_color)
+        self.text_surface.set_alpha(opacity)
     
     def draw(self):
         # center text in element
-        # x coordinate specifies left of the object
-        # move text right by element_width / 2 so text_x is at center of element
-        # move text left by text_width / 2 so text is at center of the element
+        # text is left aligned by default -> left edge of textbox = left edge of element
+        # add element_width / 2 to move the text right -> left edge of text = center of element
+        # sub text_width / 2 to move text left -> center of text = center of element
         centered_x = self.x + (self.w / 2) - (self.text_surface.get_width() / 2)
         # blit() draws one surface onto another surface
         self.screen.blit(self.text_surface, (centered_x, self.y))
