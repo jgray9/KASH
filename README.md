@@ -46,7 +46,7 @@ Iterates through every element and calls their `draw()` function
 
 The `SceneElement` class represents a generic element with a `draw()` function and a `click(x,y)` function, both of which are used in the `Scene` class. The `draw()` function should be overridden.
 ```
-__init__(Surface screen, int x, int y, int w, int h, string next_scene = None) -> None
+__init__(Surface screen, int x, int y, int w, int h, int opacity, string next_scene = None) -> None
 ```
 Each element contains a pointer to the screen in order to call the `blit` function. `x` is the distance from the left of the screen and `y` is distance from the top of the screen. `w` and `h` are the size of the object, being the width and height respectively. `next_scene` is the name of the scene that should be displayed after the element is clicked on. `next_scene` should be `None` (its default value) if the element is not clickable.
 ```
@@ -65,7 +65,7 @@ A generic draw function to be overridden by child classes. Although every implem
 Inherits the `SceneElement` class.  
 The `ImageElement` class takes care of the process of loading an image from a file and drawing it on the screen.
 ```
-__init__(Surface screen, int x, int y, int w, int h, string filename, string next_scene = None) -> None
+__init__(Surface screen, string filename, int x, int y, int opacity, string next_scene = None) -> None
 ```
 A `Surface` object is created from the file at `filename` (meaning `filename` should also include the path of the file).
 ```
@@ -80,7 +80,7 @@ Uses `blit` to draw the image surface onto the screen
 Inherits the `SceneElement` class.  
 The `TextElement` class takes care of loading blocks of text onto the screen.
 ```
-__init__(Surface screen, int x, int y, int w, int h, string text, int text_size, string next_scene = None) -> None
+__init__(Surface screen, string text, int text_size, string text_color, int x, int y, int w, int opacity) -> None
 ```
 The process of converting text into a `Surface` does not support multiple lines. Therefore, a list of `Surface` objects representing each line of text is stored instead.
 ```
@@ -96,7 +96,7 @@ Iterates through all of the `Surface` objects and uses `blit` to draw them onto 
 Inherits the `SceneElement` class.  
 The `TitleElement` class is similar to the `TextElement` class, except the the text should be centered, instead of left aligned.  
 ```
-__init__(Surface screen, int x, int y, int w, int h, string text, int text_size, string next_scene = None) -> None
+__init__(Surface screen, string text, int text_size, string text_color, int x, int y, int w) -> None
 ```
 A `Surface` object is rendered using `text` with size `text_size`. A title is not expected to have multiple lines.
 ```
@@ -108,4 +108,4 @@ Draws the text surface onto the screen using `blit`. The location of the text is
 
 ## text.json
 
-All text in this program is pulled from the `text.json` file. Centralizing the location of text to a seperate file allows editing names/descriptions of things without having to hunt down where they are located in the code.
+All text in this program is pulled from the `departments.json` file. Centralizing the location of text to a seperate file allows editing names/descriptions of things without having to hunt down where they are located in the code.
