@@ -4,6 +4,7 @@ import json
 import os, sys
 
 WINDOW_SIZE = (1000, 750)
+DEPARTMENTS = {}
 
 # filepath is different when program is in .exe form
 def get_file_path(filename):
@@ -19,23 +20,23 @@ def get_file_path(filename):
     return filename
 
 def create_scenes(screen: pygame.Surface):
-    departments = {}
-    with open(get_file_path("departments.json")) as text_file:
-        departments = json.load(text_file)
     scenes = {}
 
     # 
     # create road scene
     # 
     scenes['road'] = elements.Scene([
-        elements.ImageElement(screen, 'images/background.png', 0, 0)
+        elements.ImageElement(screen, 'images/background.png', 0, 0),
+        elements.ImageElement(screen, 'images/info_board.png', x = 300, y = 10),
+        elements.TitleElement(screen, DEPARTMENTS['VHA']['title'], 24, 'white', x = 310, y = 24, w = 660),
+        elements.TextElement(screen, DEPARTMENTS['VHA']['desc'], 20, 'white', x = 315, y = 65, w = 650),
     ])
     # 16 elements each is 40 pixels tall
     # 17 empty spaces between each element (and edge of screen)
     # calculate the size of the empty spaces
     space_between_elements = (WINDOW_SIZE[1] - (16 * 40)) / 17
     y = space_between_elements
-    for department in departments:
+    for department in DEPARTMENTS:
         scenes['road'].elements.extend([
             elements.ImageElement(screen, 'images/sign.png', x = 0, y = y, next_scene = department),
             elements.TitleElement(screen, department, 24, 'white', x = 129, y = y + 10, w = 140),
@@ -45,7 +46,7 @@ def create_scenes(screen: pygame.Surface):
     # 
     # create department info screens
     # 
-    for department in departments:
+    for department in DEPARTMENTS:
         scenes[department] = elements.Scene([
             elements.ImageElement(screen, 'images/background_2.png', x = 0, y = 0),
             elements.ImageElement(screen, 'images/back.png', x = 10, y = 10, next_scene='road'),
@@ -74,6 +75,12 @@ def program_loop(screen, scenes):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_scene.check_click(event.pos[0], event.pos[1])
                 print(event.pos)
+            # user hovers mouse of element
+            if event.type == elements.ELEMENTHOVEREVENT:
+                e: elements.SceneElement = event.element
+                if current_scene == scenes['road'] and e.next_scene != None:
+                    current_scene.elements[2].text = DEPARTMENTS[e.next_scene]['title']
+                    current_scene.elements[3].text = DEPARTMENTS[e.next_scene]['desc']
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
                 current_scene = scenes[event.scene]
@@ -88,6 +95,8 @@ def program_loop(screen, scenes):
         pygame.display.flip()
 
 if __name__ == '__main__':
+    with open(get_file_path("departments.json")) as text_file:
+        DEPARTMENTS = json.load(text_file)
     pygame.init()
     screen = pygame.display.set_mode(WINDOW_SIZE)
     scenes = create_scenes(screen)
