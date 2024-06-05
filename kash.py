@@ -26,8 +26,8 @@ def create_scenes(screen: pygame.Surface):
     # create road scene
     # 
     scenes['road'] = elements.Scene([
-        elements.ImageElement(screen, 'images/background.png', 0, 0),
-        elements.ImageElement(screen, 'images/info_board.png', x = 300, y = 10),
+        elements.ImageElement(screen, get_file_path('images/background.png'), 0, 0),
+        elements.ImageElement(screen, get_file_path('images/info_board.png'), x = 300, y = 10),
         elements.TitleElement(screen, DEPARTMENTS['VHA']['title'], 24, 'white', x = 310, y = 24, w = 660),
         elements.TextElement(screen, DEPARTMENTS['VHA']['desc'], 20, 'white', x = 315, y = 65, w = 650),
     ])
@@ -38,7 +38,7 @@ def create_scenes(screen: pygame.Surface):
     y = space_between_elements
     for department in DEPARTMENTS:
         scenes['road'].elements.extend([
-            elements.ImageElement(screen, 'images/sign.png', x = 0, y = y, next_scene = department),
+            elements.ImageElement(screen, get_file_path('images/sign.png'), x = 0, y = y, next_scene = department),
             elements.TitleElement(screen, department, 24, 'white', x = 129, y = y + 10, w = 140),
         ])
         y += space_between_elements + 40
@@ -48,8 +48,8 @@ def create_scenes(screen: pygame.Surface):
     # 
     for department in DEPARTMENTS:
         scenes[department] = elements.Scene([
-            elements.ImageElement(screen, 'images/background_2.png', x = 0, y = 0),
-            elements.ImageElement(screen, 'images/back.png', x = 10, y = 10, next_scene='road'),
+            elements.ImageElement(screen, get_file_path('images/background_2.png'), x = 0, y = 0),
+            elements.ImageElement(screen, get_file_path('images/back.png'), x = 10, y = 10, next_scene='road'),
             elements.TitleElement(screen, department, 30, 'black', x = 0, y = 15, w = WINDOW_SIZE[0])
         ])
 
