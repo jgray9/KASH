@@ -81,15 +81,13 @@ def program_loop(screen, scenes):
                 if current_scene == scenes['road'] and e.next_scene != None:
                     title_element: elements.TitleElement = current_scene.elements[2]
                     desc_element: elements.TextElement = current_scene.elements[3]
-                    title_element.text = DEPARTMENTS[e.next_scene]['title']
-                    desc_element.text = DEPARTMENTS[e.next_scene]['desc']
                     # reduce size if the department is OEDCA since the name is so long
-                    if e.next_scene == 'OEDCA':
-                        title_element.text_size = 20
-                        title_element.y = 26
-                    else:
-                        title_element.text_size = 24
-                        title_element.y = 24
+                    title_font_size = 20 if e.next_scene == 'OEDCA' else 24
+                    title_element.y = 26 if e.next_scene == 'OEDCA' else 24
+                    # update text
+                    title_element.set_text(DEPARTMENTS[e.next_scene]['title'], title_font_size, 'white')
+                    desc_element.set_text(DEPARTMENTS[e.next_scene]['desc'], 20, 'white')
+
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
                 current_scene = scenes[event.scene]
