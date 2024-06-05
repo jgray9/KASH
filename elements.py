@@ -2,19 +2,10 @@ import pygame
 
 # ID for a custom pygame event for changing scenes
 CHANGESCENEEVENT = pygame.USEREVENT + 1
-ELEMENTHOVEREVENT = pygame.USEREVENT + 2
 
 class Scene:
     def __init__(self, elements: list) -> None:
         self.elements: list[SceneElement] = elements
-    
-    def check_hover(self, x: int | float, y: int | float):
-        for e in self.elements:
-            if e.check_position(x, y):
-                # create a new hover event
-                event = pygame.event.Event(ELEMENTHOVEREVENT, {'element': e})
-                # trigger the event
-                pygame.event.post(event)
 
     def check_click(self, x: int | float, y: int | float):
         for e in self.elements:
