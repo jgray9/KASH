@@ -79,8 +79,17 @@ def program_loop(screen, scenes):
             if event.type == elements.ELEMENTHOVEREVENT:
                 e: elements.SceneElement = event.element
                 if current_scene == scenes['road'] and e.next_scene != None:
-                    current_scene.elements[2].text = DEPARTMENTS[e.next_scene]['title']
-                    current_scene.elements[3].text = DEPARTMENTS[e.next_scene]['desc']
+                    title_element: elements.TitleElement = current_scene.elements[2]
+                    desc_element: elements.TextElement = current_scene.elements[3]
+                    title_element.text = DEPARTMENTS[e.next_scene]['title']
+                    desc_element.text = DEPARTMENTS[e.next_scene]['desc']
+                    # reduce size if the department is OEDCA since the name is so long
+                    if e.next_scene == 'OEDCA':
+                        title_element.text_size = 20
+                        title_element.y = 26
+                    else:
+                        title_element.text_size = 24
+                        title_element.y = 24
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
                 current_scene = scenes[event.scene]
