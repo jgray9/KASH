@@ -28,7 +28,7 @@ def create_scenes(screen: pygame.Surface):
     scenes['road'] = elements.Scene([
         elements.ImageElement(screen, get_file_path('images/background.png'), 0, 0),
         elements.ImageElement(screen, get_file_path('images/info_board.png'), x = 300, y = 10),
-        elements.TitleElement(screen, DEPARTMENTS['VHA']['title'], 24, 'white', x = 310, y = 24, w = 660),
+        elements.TitleElement(screen, DEPARTMENTS['VHA']['title'], 20, 'white', x = 310, y = 26, w = 660),
         elements.TextElement(screen, DEPARTMENTS['VHA']['desc'], 20, 'white', x = 315, y = 65, w = 650),
     ])
     # 16 elements each is 40 pixels tall
@@ -61,39 +61,50 @@ def program_loop(screen, scenes):
     # loop until program closes
     while True:
 
+        # 
         # HANDLE INPUT
-
+        # 
         events = pygame.event.get() # all events that occured last frame
         for event in events:
             # user closes the window
             if event.type == pygame.QUIT:
                 return
-            # user moves the mouse
-            if event.type == pygame.MOUSEMOTION:
-                current_scene.check_hover(event.pos[0], event.pos[1])
             # user clicks the mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_scene.check_click(event.pos[0], event.pos[1])
                 print(event.pos)
-            # user hovers mouse of element
-            if event.type == elements.ELEMENTHOVEREVENT:
-                e: elements.SceneElement = event.element
-                if current_scene == scenes['road'] and e.next_scene != None:
-                    title_element: elements.TitleElement = current_scene.elements[2]
-                    desc_element: elements.TextElement = current_scene.elements[3]
-                    # reduce size if the department is OEDCA since the name is so long
-                    title_font_size = 20 if e.next_scene == 'OEDCA' else 24
-                    title_element.y = 26 if e.next_scene == 'OEDCA' else 24
-                    # update text
-                    title_element.set_text(DEPARTMENTS[e.next_scene]['title'], title_font_size, 'white')
-                    desc_element.set_text(DEPARTMENTS[e.next_scene]['desc'], 20, 'white')
-
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
                 current_scene = scenes[event.scene]
         
-        # HANDLE OUTPUT
-
+        # 
+        # UPDATE SIGN COLORS
+        # 
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        if current_scene == scenes['road']: # road signs change color when hovered over + info board changes also
+            for i in range(4,36,2):
+                info_board_title = current_scene.elements[2]
+                info_board_text = current_scene.elements[3]
+                sign = current_scene.elements[i]
+                sign_text = current_scene.elements[i + 1]
+                if sign.check_position(mouse_x, mouse_y):
+                    sign.set_image(get_file_path('images/sign_highlighted.png'))
+                    sign_text.set_text(sign_text.text, sign_text.text_size, 'black')
+                    info_board_title.set_text(DEPARTMENTS[sign.next_scene]['title'], 20, 'white')
+                    info_board_text.set_text(DEPARTMENTS[sign.next_scene]['desc'], 20, 'white')
+                else:
+                    sign.set_image(get_file_path('images/sign.png'))
+                    sign_text.set_text(sign_text.text, sign_text.text_size, 'white')
+        else: # back button changes color when hovered over
+            back_button = current_scene.elements[1]
+            if back_button.check_position(mouse_x, mouse_y):
+                back_button.set_image(get_file_path('images/back_highlighted.png'))
+            else:
+                back_button.set_image(get_file_path('images/back.png'))
+        
+        # 
+        # DRAW OUTPUT
+        # 
         # Clear screen
         screen.fill("white")
         # Draw new elements
