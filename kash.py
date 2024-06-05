@@ -96,6 +96,11 @@ def program_loop(screen, scenes):
                             search_text.set_text(search_text.text + event.unicode, search_text.text_size, search_text.text_color)
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
+                # clear search bar if leaving a department screen
+                if current_scene != scenes['road']:
+                    search_text = current_scene.elements[4]
+                    search_text.set_text('', search_text.text_size, search_text.text_color)
+                # change scene
                 current_scene = scenes[event.scene]
             # user searches for article
             if event.type == elements.SEARCHARTICLEEVENT:
