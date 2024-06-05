@@ -19,45 +19,38 @@ def get_file_path(filename):
     return filename
 
 def create_scenes(screen: pygame.Surface):
-    text = {}
-    with open(get_file_path("text.json")) as text_file:
-        text = json.load(text_file)
+    departments = {}
+    with open(get_file_path("departments.json")) as text_file:
+        departments = json.load(text_file)
     scenes = {}
 
+    # 
     # create road scene
+    # 
     scenes['road'] = elements.Scene([
-        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background.png')),
-        elements.ImageElement(screen,  50, 305,  250, 250, get_file_path('images/building.png'), 'vha'),
-        elements.ImageElement(screen, 375, 305,  250, 250, get_file_path('images/building.png'), 'vba'),
-        elements.ImageElement(screen, 700, 305,  250, 250, get_file_path('images/building.png'), 'nca'),
+        elements.ImageElement(screen, 'images/background.png', 0, 0)
     ])
-    # create vha scene
-    scenes['vha'] = elements.Scene([
-        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background_2.png')),
-        elements.TitleElement(screen, 250,  50, 600,  30, text['vha']['title'], 30, bg_color=(0,255,0,50)),
-        elements.ImageElement(screen,  10,  10, 200, 100, get_file_path('images/back.png'), 'road'),
-        elements.TextElement(screen,  115, 140, 500, 400, text['vha']['desc'], 18, bg_color=(0,255,0,50)),
-        elements.TextElement(screen,  645, 140, 300, 50, 'Phone Number:\n' + text['vha']['phone'], 18, bg_color=(0,255,0,50)),
-        elements.TextElement(screen,  645, 200, 300, 50, 'Website:\n' + text['vha']['website'], 18, bg_color=(0,255,0,50)),
-    ])
-    # create vba scene
-    scenes['vba'] = elements.Scene([
-        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background_2.png')),
-        elements.TitleElement(screen, 250,  50, 600,  30, text['vba']['title'], 30),
-        elements.ImageElement(screen,  10,  10, 200, 100, get_file_path('images/back.png'), 'road'),
-        elements.TextElement(screen,  115, 140, 500, 400, text['vba']['desc'], 18),
-        elements.TextElement(screen,  645, 140, 300, 50, 'Phone Number:\n' + text['vba']['phone'], 18),
-        elements.TextElement(screen,  645, 200, 300, 50, 'Website:\n' + text['vba']['website'], 18),
-    ])
-    # create nca scene
-    scenes['nca'] = elements.Scene([
-        elements.ImageElement(screen,   0,   0, 1000, 750, get_file_path('images/background_2.png')),
-        elements.TitleElement(screen, 250,  50, 600,  30, text['nca']['title'], 30),
-        elements.ImageElement(screen,  10,  10, 200, 100, get_file_path('images/back.png'), 'road'),
-        elements.TextElement(screen,  115, 140, 500, 400, text['nca']['desc'], 18),
-        elements.TextElement(screen,  645, 140, 300, 50, 'Phone Number:\n' + text['nca']['phone'], 18),
-        elements.TextElement(screen,  645, 200, 300, 50, 'Website:\n' + text['nca']['website'], 18),
-    ])
+    # 16 elements each is 40 pixels tall
+    # 17 empty spaces between each element (and edge of screen)
+    # calculate the size of the empty spaces
+    space_between_elements = (WINDOW_SIZE[1] - (16 * 40)) / 17
+    y = space_between_elements
+    for department in departments:
+        scenes['road'].elements.extend([
+            elements.ImageElement(screen, 'images/sign.png', x = 0, y = y, next_scene = department),
+            elements.TitleElement(screen, department, 24, 'white', x = 129, y = y + 10, w = 140),
+        ])
+        y += space_between_elements + 40
+    
+    # 
+    # create department info screens
+    # 
+    for department in departments:
+        scenes[department] = elements.Scene([
+            elements.ImageElement(screen, 'images/background_2.png', x = 0, y = 0),
+            elements.ImageElement(screen, 'images/back.png', x = 10, y = 10, next_scene='road'),
+            elements.TitleElement(screen, department, 30, 'black', x = 0, y = 15, w = WINDOW_SIZE[0])
+        ])
 
     return scenes
 
