@@ -110,6 +110,10 @@ class TextElement(SceneElement):
         self.set_text(text, text_size, text_color)
     
     def set_text(self, text: str, text_size: int, text_color: str):
+        # store text info so other parts of the program can look at it
+        self.text = text
+        self.text_size = text_size
+        self.text_color = text_color
         # space between text and edges of element
         padding = 5
         # create new font with size text_size
@@ -155,6 +159,10 @@ class TitleElement(SceneElement):
         self.set_text(text, text_size, text_color)
     
     def set_text(self, text: str, text_size: int, text_color: str):
+        # store text info so other parts of the program can look at it
+        self.text = text
+        self.text_size = text_size
+        self.text_color = text_color
         # create new font with size text_size
         # no need for 'self.' since this wont be used outside of set_text()
         font = pygame.font.Font(pygame.font.get_default_font(), text_size)
