@@ -2,6 +2,7 @@ import pygame
 
 # ID for a custom pygame event for changing scenes
 CHANGESCENEEVENT = pygame.USEREVENT + 1
+SEARCHARTICLEEVENT = pygame.USEREVENT + 2
 
 class Scene:
     def __init__(self, elements: list) -> None:

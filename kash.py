@@ -50,7 +50,9 @@ def create_scenes(screen: pygame.Surface):
         scenes[department] = elements.Scene([
             elements.ImageElement(screen, get_file_path('images/background_2.png'), x = 0, y = 0),
             elements.ImageElement(screen, get_file_path('images/back.png'), x = 10, y = 10, next_scene='road'),
-            elements.TitleElement(screen, department, 30, 'black', x = 0, y = 15, w = WINDOW_SIZE[0])
+            elements.TitleElement(screen, department, 30, 'black', x = 0, y = 15, w = WINDOW_SIZE[0]),
+            elements.ImageElement(screen, get_file_path('images/search_bar.png'), x = 100, y = 60),
+            elements.TextElement(screen, '', 24, 'black', x = 127, y = 58, w = 1000)
         ])
 
     return scenes
@@ -72,10 +74,31 @@ def program_loop(screen, scenes):
             # user clicks the mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_scene.check_click(event.pos[0], event.pos[1])
-                print(event.pos)
+            # user types on the keyboard
+            if event.type == pygame.KEYDOWN:
+                if current_scene != scenes['road']:
+                    search_text = current_scene.elements[4]
+                    # press back key
+                    if event.key == pygame.K_BACKSPACE:
+                        if len(search_text.text) > 0:
+                            search_text.set_text(search_text.text[:-1], search_text.text_size, search_text.text_color)
+                    # press enter key
+                    elif event.key == pygame.K_RETURN:
+                        # create a new search article event
+                        search_event = pygame.event.Event(elements.SEARCHARTICLEEVENT, {'search': search_text.text})
+                        # trigger the event
+                        pygame.event.post(search_event)
+                    # press other key
+                    elif event.unicode.isalnum() or event.unicode == ' ':
+                        if len(search_text.text) < 40:
+                            search_text.set_text(search_text.text + event.unicode, search_text.text_size, search_text.text_color)
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
                 current_scene = scenes[event.scene]
+            # user searches for article
+            if event.type == elements.SEARCHARTICLEEVENT:
+                print(event)
+                # TODO integrate with servicenow
         
         # 
         # UPDATE SIGN COLORS
@@ -90,8 +113,8 @@ def program_loop(screen, scenes):
                 if sign.check_position(mouse_x, mouse_y):
                     sign.set_image(get_file_path('images/sign_highlighted.png'))
                     sign_text.set_text(sign_text.text, sign_text.text_size, 'black')
-                    info_board_title.set_text(DEPARTMENTS[sign.next_scene]['title'], 20, 'white')
-                    info_board_text.set_text(DEPARTMENTS[sign.next_scene]['desc'], 20, 'white')
+                    info_board_title.set_text(DEPARTMENTS[sign.next_scene]['title'], info_board_title.text_size, info_board_title.text_color)
+                    info_board_text.set_text(DEPARTMENTS[sign.next_scene]['desc'], info_board_text.text_size, info_board_text.text_color)
                 else:
                     sign.set_image(get_file_path('images/sign.png'))
                     sign_text.set_text(sign_text.text, sign_text.text_size, 'white')

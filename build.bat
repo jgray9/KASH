@@ -7,6 +7,7 @@ pyinstaller --onefile --distpath . ^
 --add-data "images\info_board.png:." ^
 --add-data "images\sign.png:." ^
 --add-data "images\sign_highlighted.png:." ^
+--add-data "images\search_bar.png:." ^
 kash.py
 rmdir /s /q build
 del kash.spec
