@@ -1,66 +1,66 @@
 {
     "VHA": {
         "title": "Veterans Health Administration",
-        "desc": "With 152 VA medical centers (VAMCs) nationwide, VHA manages one of the largest health care systems in the United States. VAMCs within a Veterans Integrated Service Network (VISN) work together to provide efficient, accessible health care to veterans in their areas. The VHA also conducts research and education, and provides emergency medical preparedness. "
+        "desc": "With 152 VA medical centers (VAMCs) nationwide, VHA manages one of the largest health care systems in the United States. VAMCs within a Veterans Integrated Service Network (VISN) work together to provide efficient, accessible health care to veterans in their areas. The VHA also conducts research and education, and provides emergency medical preparedness."
     },
     "VBA": {
         "title": "Veterans Benefits Administration",
-        "desc": "VBA provides benefits and services to the veteran population through 56 VA regional offices. Some of the benefits and services provided by VBA to veterans and their dependents include compensation and pension, education, loan guaranty, and insurance. "
+        "desc": "VBA provides benefits and services to the veteran population through 56 VA regional offices. Some of the benefits and services provided by VBA to veterans and their dependents include compensation and pension, education, loan guaranty, and insurance."
     },
     "NCA": {
         "title": "National Cemetery Administration",
-        "desc": "NCA is responsible for providing burial benefits to veterans and eligible dependents. The delivery of these benefits involves managing 141 National Cemeteries nationwide, providing grave markers worldwide, administering the State Cemetery Grants Program that complements the National Cemeteries network, and providing Presidential Memorial Certificates to next of kin of deceased veterans. "
+        "desc": "NCA is responsible for providing burial benefits to veterans and eligible dependents. The delivery of these benefits involves managing 141 National Cemeteries nationwide, providing grave markers worldwide, administering the State Cemetery Grants Program that complements the National Cemeteries network, and providing Presidential Memorial Certificates to next of kin of deceased veterans."
     },
     "HRA/OSP": {
-        "title": "VA Office of Human Resources and Administration/Operations, Security, and Preparedness (HRA/OSP)",
-        "desc": "HRA/OSP's functional areas include human resources management, administrative policies and functions, equal opportunity policies and functions, and security and law enforcement. "
+        "title": "VA Office of Human Resources and Administration",
+        "desc": "Also known as Office of Operations, Security, and Preparedness (OSP), HRA/OSP's functional areas include human resources management, administrative policies and functions, equal opportunity policies and functions, and security and law enforcement."
     },
     "OIT": {
         "title": "Office of Information and Technology",
-        "desc": "Information technology is at the core of everything we do at VA and the Office of Information and Technology is tasked with ensuring that VA has the IT tools and services needed to support our Nation's Veterans. "
+        "desc": "Information technology is at the core of everything we do at VA and the Office of Information and Technology is tasked with ensuring that VA has the IT tools and services needed to support our Nation's Veterans."
     },
     "BCA": {
         "title": "Board of Contract Appeals",
-        "desc": "The Department of Veterans Affairs Board of Contract Appeals considers and determines appeals from decisions of contracting officers pursuant to the Contract Disputes Act of 1978. "
+        "desc": "The Department of Veterans Affairs Board of Contract Appeals considers and determines appeals from decisions of contracting officers pursuant to the Contract Disputes Act of 1978."
     },
     "BVA": {
         "title": "Board of Veterans' Appeals",
-        "desc": "The Board reviews benefit claims determinations made by local VA offices and issues decision on appeals. The Board members, attorneys experienced in veterans law and in reviewing benefit claims, are the only ones who can issue Board decisions. "
+        "desc": "The Board reviews benefit claims determinations made by local VA offices and issues decision on appeals. The Board members, attorneys experienced in veterans law and in reviewing benefit claims, are the only ones who can issue Board decisions."
     },
     "CMV": {
         "title": "Center for Minority Veterans",
-        "desc": "As a Center for Excellence, the Center for Minority Veterans will ensure that the VA addresses the unique circumstances and special needs of minority veterans. "
+        "desc": "As a Center for Excellence, the Center for Minority Veterans will ensure that the VA addresses the unique circumstances and special needs of minority veterans."
     },
     "CWV": {
         "title": "Center for Women Veterans",
-        "desc": "The mission of the Center for Women Veterans is to ensure women veterans have access to VA benefits and services, to ensure that VA health care and benefits programs are responsive to the gender-specific needs of women veterans, to perform outreach to improve women veterans awareness of VA services, benefits and eligibility, and to act as the primary advisor to the Secretary for Veterans Affairs on all matters related to programs, issues, and initiatives for and affecting women veterans. "
+        "desc": "The mission of the Center for Women Veterans is to ensure women veterans have access to VA benefits and services, to ensure that VA health care and benefits programs are responsive to the gender-specific needs of women veterans, to perform outreach to improve women veterans awareness of VA services, benefits and eligibility, and to act as the primary advisor to the Secretary for Veterans Affairs on all matters related to programs, issues, and initiatives for and affecting women veterans."
     },
     "OALC": {
-        "title": "Office of Acquisition, Logistics, and Construction (OALC)",
-        "desc": "OALC supports the VA administrations and staff offices by providing innovative business solutions in the area of acquisition, distribution of supplies, and cost effective strategies in asset management and major construction. OALC has three major offices, the Office of Acquisition and Logistics, the Office of Procurement, Acquisition and Logistics, and the Office of Construction and Facilities Management. "
+        "title": "Office of Acquisition, Logistics, and Construction",
+        "desc": "OALC supports the VA administrations and staff offices by providing innovative business solutions in the area of acquisition, distribution of supplies, and cost effective strategies in asset management and major construction. OALC has three major offices, the Office of Acquisition and Logistics, the Office of Procurement, Acquisition and Logistics, and the Office of Construction and Facilities Management."
     },
     "ADR": {
-        "title": "Office of Alternate Dispute Resolution (ADR) and\u00a0 Mediation",
-        "desc": "This office provides effective training and consulting in conflict resolution and ADR (emphasizing mediation) to VA organizations and employees. "
+        "title": "Office of Alternate Dispute Resolution and Mediation",
+        "desc": "This office provides effective training and consulting in conflict resolution and ADR (emphasizing mediation) to VA organizations and employees."
     },
     "OM": {
-        "title": "Office of Management (OM)",
-        "desc": "OM enables VA to provide a full range of benefits and services to our Nation's Veterans by providing strategic and operational leadership in budget, asset enterprise management, financial management, financial management business transformation service, actuarial services, and business oversight. It also promotes public confidence in the Department through stewardship and oversight of business activities that are consistent with national policy, law, and regulation. "
+        "title": "Office of Management",
+        "desc": "OM enables VA to provide a full range of benefits and services to our Nation's Veterans by providing strategic and operational leadership in budget, asset enterprise management, financial management, financial management business transformation service, actuarial services, and business oversight. It also promotes public confidence in the Department through stewardship and oversight of business activities that are consistent with national policy, law, and regulation."
     },
     "OCLA": {
         "title": "Office of Congressional and Legislative Affairs",
-        "desc": "The Office of Congressional and Legislative Affairs is the principal point of contact between the Department and Congress and is the oversight and coordinating body for the Department's Congressional relations. The office serves in an advisory capacity to the Secretary and Deputy Secretary as well as other VA managers concerning policies, programs, and legislative matters in which Congressional committees or individual members of Congress have expressed an interest. "
+        "desc": "The Office of Congressional and Legislative Affairs is the principal point of contact between the Department and Congress and is the oversight and coordinating body for the Department's Congressional relations. The office serves in an advisory capacity to the Secretary and Deputy Secretary as well as other VA managers concerning policies, programs, and legislative matters in which Congressional committees or individual members of Congress have expressed an interest."
     },
     "OEDCA": {
         "title": "Office of Employment Discrimination Complaint Adjudication",
-        "desc": "OEDCA maintains a high quality and high performing workforce and ensures fairness, integrity, and trust throughout the complaint adjudication phase of the Equal Employment Opportunity complaint resolution process. "
+        "desc": "OEDCA maintains a high quality and high performing workforce and ensures fairness, integrity, and trust throughout the complaint adjudication phase of the Equal Employment Opportunity complaint resolution process."
     },
     "OES": {
         "title": "Office of the Executive Secretary",
-        "desc": "The Office of the Executive Secretary, a component of the Office of the Secretary, serves as the Department's central coordinating point for all documents flowing in and out of the Office of the Secretary. "
+        "desc": "The Office of the Executive Secretary, a component of the Office of the Secretary, serves as the Department's central coordinating point for all documents flowing in and out of the Office of the Secretary."
     },
     "OGC": {
         "title": "Office of General Counsel",
-        "desc": "The General Counsel provides legal advice and services to the Secretary (SECVA) and all organizational components of the Department. The General Counsel is, by statute, the Department's Chief Legal Officer. "
+        "desc": "The General Counsel provides legal advice and services to the Secretary (SECVA) and all organizational components of the Department. The General Counsel is, by statute, the Department's Chief Legal Officer."
     }
 }
