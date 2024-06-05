@@ -2,12 +2,21 @@ import pygame
 
 # ID for a custom pygame event for changing scenes
 CHANGESCENEEVENT = pygame.USEREVENT + 1
+ELEMENTHOVEREVENT = pygame.USEREVENT + 2
 
 class Scene:
     def __init__(self, elements: list) -> None:
         self.elements: list[SceneElement] = elements
     
-    def click(self, x: int | float, y: int | float):
+    def check_hover(self, x: int | float, y: int | float):
+        for e in self.elements:
+            if e.check_position(x, y):
+                # create a new hover event
+                event = pygame.event.Event(ELEMENTHOVEREVENT, {'element': e})
+                # trigger the event
+                pygame.event.post(event)
+
+    def check_click(self, x: int | float, y: int | float):
         for e in self.elements:
             e.click(x, y)
     
@@ -37,19 +46,24 @@ class SceneElement:
         # when true, element is not drawn even when its current scene is active
         self.hidden = False
     
+    def check_position(self, x: int | float, y: int | float) -> bool:
+        # element hidden
+        if self.hidden: return False
+        # too far left
+        if x < self.x: return False
+        # too far right
+        if x > self.x + self.w: return False
+        # too far up
+        if y < self.y: return False
+        # too far down
+        if y > self.y + self.h: return False
+        return True
+        
     def click(self, x: int | float, y: int | float):
         # element not clickable
         if self.next_scene == None: return
-        # element hidden
-        if self.hidden: return
-        # too far left
-        if x < self.x: return
-        # too far right
-        if x > self.x + self.w: return
-        # too far up
-        if y < self.y: return
-        # too far down
-        if y > self.y + self.h: return
+        # mouse not hovering over element
+        if not self.check_position(x, y): return
         # create a new change scene event
         event = pygame.event.Event(CHANGESCENEEVENT, {'scene': self.next_scene})
         # trigger the event

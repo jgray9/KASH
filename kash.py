@@ -56,7 +56,7 @@ def create_scenes(screen: pygame.Surface):
 
 def program_loop(screen, scenes):
     # start on the road scene
-    current_scene = scenes['road']
+    current_scene: elements.Scene = scenes['road']
     # loop until program closes
     while True:
 
@@ -67,9 +67,12 @@ def program_loop(screen, scenes):
             # user closes the window
             if event.type == pygame.QUIT:
                 return
+            # user moves the mouse
+            if event.type == pygame.MOUSEMOTION:
+                current_scene.check_hover(event.pos[0], event.pos[1])
             # user clicks the mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
-                current_scene.click(event.pos[0], event.pos[1])
+                current_scene.check_click(event.pos[0], event.pos[1])
                 print(event.pos)
             # scene changes
             if event.type == elements.CHANGESCENEEVENT:
