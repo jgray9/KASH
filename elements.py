@@ -10,7 +10,8 @@ class Scene:
 
     def check_click(self, x: int | float, y: int | float):
         for e in self.elements:
-            e.click(x, y)
+            if e.check_position(x, y):
+                e.click()
     
     def draw_all(self):
         for e in self.elements:
@@ -51,11 +52,9 @@ class SceneElement:
         if y > self.y + self.h: return False
         return True
         
-    def click(self, x: int | float, y: int | float):
+    def click(self):
         # element not clickable
         if self.next_scene == None: return
-        # mouse not hovering over element
-        if not self.check_position(x, y): return
         # create a new change scene event
         event = pygame.event.Event(CHANGESCENEEVENT, {'scene': self.next_scene})
         # trigger the event
