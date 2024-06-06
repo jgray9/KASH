@@ -8,7 +8,7 @@ class Scene:
     def __init__(self, elements: list) -> None:
         self.elements: list[SceneElement] = elements
 
-    def check_click(self, x: int | float, y: int | float):
+    def check_click(self, x: float, y: float):
         for e in self.elements:
             if e.check_position(x, y):
                 e.click()
@@ -20,8 +20,8 @@ class Scene:
 
 class SceneElement:
     def __init__(self, screen: pygame.Surface,
-                 x: int | float, y: int | float,
-                 w: int | float, h: int | float,
+                 x: float, y: float,
+                 w: float, h: float,
                  opacity: int = 256,
                  next_scene: str = None) -> None:
         self.screen = screen
@@ -39,7 +39,7 @@ class SceneElement:
         # when true, element is not drawn even when its current scene is active
         self.hidden = False
     
-    def check_position(self, x: int | float, y: int | float) -> bool:
+    def check_position(self, x: float, y: float) -> bool:
         # element hidden
         if self.hidden: return False
         # too far left
@@ -66,7 +66,7 @@ class SceneElement:
 class ImageElement(SceneElement):
     def __init__(self, screen: pygame.Surface,
                  filename: str,
-                 x: int | float, y: int | float,
+                 x: float, y: float,
                  opacity: int = 256,
                  next_scene: str = None) -> None:
         # call super constructor
@@ -90,8 +90,8 @@ class ImageElement(SceneElement):
 class TextElement(SceneElement):
     def __init__(self, screen: pygame.Surface,
                  text: str, text_size: int, text_color: str,
-                 x: int | float, y: int | float,
-                 w: int | float,
+                 x: float, y: float,
+                 w: float,
                  opacity: int = 256) -> None:
         # call super constructor
         # width and height are used for click detection, not actual size of display
@@ -139,8 +139,8 @@ class TextElement(SceneElement):
 class TitleElement(SceneElement):
     def __init__(self, screen: pygame.Surface,
                  text: str, text_size: int, text_color: str,
-                 x: int | float, y: int | float,
-                 w: int | float,
+                 x: float, y: float,
+                 w: float,
                  opacity: int = 256) -> None:
         # call super constructor
         # width and height are used for click detection, not actual size of display
